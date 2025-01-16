@@ -1,220 +1,228 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Responsive Gallery</title>
-    <style>
-        * {
-            box-sizing: border-box;
-        }
+  <meta charset="iso-8859-1">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Places Gallery</title>
+  <style>
+    body {
+      background-color: #fefefe;
+      color: #000;
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+    }
 
-        body {
-            margin: 0;
-            font-family: Times, serif;
-        }
+    .header {
+      text-align: center;
+      padding: 20px;
+      font-style: italic;
+      font-weight: bold;
+    }
 
-        .header {
-            text-align: center;
-            padding: 20px;
-        }
+    .header a {
+      color: white;
+      text-decoration: none;
+      font-size: 18px;
+    }
 
-        .row {
-            display: flex;
-            flex-wrap: wrap;
-            padding: 0 4px;
-            justify-content: center;
-        }
+    .row {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); /* Flexible grid layout */
+      gap: 8px;
+      padding: 16px;
+      margin-top: 40px; /* Reduced space between header and gallery */
+    }
 
-        .column {
-            flex: 25%;
-            max-width: 25%;
-            padding: 4px;
-        }
+    .column {
+      width: 100%;
+    }
 
-        .column img {
-            width: 100%;
-            height: auto;
-            object-fit: cover;
-            display: block;
-            border-radius: 4px;
-            cursor: pointer;
-        }
+    .column img {
+      width: 100%;
+      height: 200px; /* Set all images to the same height */
+      object-fit: cover; /* Ensure images cover the box without stretching */
+      cursor: pointer;
+      transition: transform 0.3s ease;
+    }
 
-        .modal {
-            display: none;
-            position: fixed;
-            z-index: 1;
-            padding-top: 100px;
-            left: 0;
-            top: 0;
-            width: 100%;
-            height: 100%;
-            overflow: auto;
-            background-color: rgba(0, 0, 0, 0.9);
-        }
+    .column img:hover {
+      transform: scale(1.05);
+    }
 
-        .modal-content {
-            position: relative;
-            margin: auto;
-            padding: 0;
-            width: 90%;
-            max-width: 1200px;
-        }
+    .modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.8);
+      z-index: 1000;
+      justify-content: center;
+      align-items: center;
+    }
 
-        .close {
-            color: white;
-            position: absolute;
-            top: 10px;
-            right: 25px;
-            font-size: 35px;
-            font-weight: bold;
-        }
+    .modal-content {
+      position: relative;
+      width: 90%;
+      height: 900px; /* Fixed height for the modal */
+      text-align: center;
+      overflow: hidden;
+    }
 
-        .close:hover,
-        .close:focus {
-            color: #ccc;
-            text-decoration: none;
-            cursor: pointer;
-        }
+    .modal-content img {
+      width: auto;
+      max-height: 900px; /* Ensure image doesn't exceed the modal height */
+      object-fit: contain; /* Maintain aspect ratio */
+    }
 
-        .mySlides {
-            display: none;
-        }
+    .close, .prev, .next {
+      position: absolute;
+      color: white;
+      font-size: 24px;
+      font-weight: bold;
+      cursor: pointer;
+      padding: 10px;
+    }
 
-        .prev,
-        .next {
-            cursor: pointer;
-            position: absolute;
-            top: 50%;
-            width: auto;
-            padding: 16px;
-            margin-top: -50px;
-            color: white;
-            font-weight: bold;
-            font-size: 20px;
-            transition: 0.6s ease;
-            border-radius: 0 3px 3px 0;
-            user-select: none;
-        }
+    .close {
+      top: 10px;
+      right: 20px;
+    }
 
-        .next {
-            right: 0;
-            border-radius: 3px 0 0 3px;
-        }
+    .prev, .next {
+      top: 50%;
+      transform: translateY(-50%);
+    }
 
-        .prev:hover,
-        .next:hover {
-            background-color: rgba(0, 0, 0, 0.8);
-        }
+    .prev {
+      left: 10px;
+    }
 
-        img {
-            max-height: 400px;
-            object-fit: cover;
-        }
+    .next {
+      right: 10px;
+    }
 
-        .caption-container {
-            text-align: center;
-            background-color: black;
-            padding: 2px 16px;
-            color: white;
-        }
+    footer {
+      position: fixed;
+      bottom: 5px;
+      width: 100%;
+      text-align: center;
+      font-style: italic;
+    }
 
-        img.hover-shadow {
-            transition: 0.3s;
-        }
+    @media (max-width: 800px) {
+      .column {
+        flex: 1 1 calc(50% - 16px); /* 2 columns */
+      }
+    }
 
-        .hover-shadow:hover {
-            box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
-        }
-
-        @media screen and (max-width: 800px) {
-            .column {
-                flex: 50%;
-                max-width: 50%;
-            }
-        }
-
-        @media screen and (max-width: 600px) {
-            .column {
-                flex: 100%;
-                max-width: 100%;
-            }
-        }
-    </style>
+    @media (max-width: 600px) {
+      .column {
+        flex: 1 1 100%; /* 1 column */
+      }
+    }
+  </style>
 </head>
 <body>
 
+<!-- Header -->
+
 <div class="header">
-    <h1>Responsive Image Gallery</h1>
-    <p>Click on an image to view it in a larger format.</p>
+  <h1>Places</h1>
 </div>
 
-<div class="row">
-    <div class="column">
-        <img src="image1.jpg" onclick="openModal();currentSlide(1)" class="hover-shadow">
-    </div>
-    <div class="column">
-        <img src="image2.jpg" onclick="openModal();currentSlide(2)" class="hover-shadow">
-    </div>
-    <div class="column">
-        <img src="image3.jpg" onclick="openModal();currentSlide(3)" class="hover-shadow">
-    </div>
-    <div class="column">
-        <img src="image4.jpg" onclick="openModal();currentSlide(4)" class="hover-shadow">
-    </div>
-</div>
+  <div class="row" id="gallery">
+    <!-- Images dynamically inserted by JavaScript -->
+  </div>
 
-<div id="myModal" class="modal">
-    <span class="close" onclick="closeModal()">&times;</span>
+  <div id="myModal" class="modal">
     <div class="modal-content">
-        <div class="mySlides">
-            <img src="image1.jpg" class="img-center">
-        </div>
-        <div class="mySlides">
-            <img src="image2.jpg" class="img-center">
-        </div>
-        <div class="mySlides">
-            <img src="image3.jpg" class="img-center">
-        </div>
-        <div class="mySlides">
-            <img src="image4.jpg" class="img-center">
-        </div>
-        <a class="prev" onclick="plusSlides(-1)">&#10094;</a>
-        <a class="next" onclick="plusSlides(1)">&#10095;</a>
+      <span class="close">&times;</span>
+      <img id="modalImage" alt="Modal Image">
+      <a class="prev">&#10094;</a>
+      <a class="next">&#10095;</a>
     </div>
-</div>
+  </div>
 
-<script>
-    let slideIndex = 1;
+  <footer>
+    &copy; 2025 K.K. Wopat
+  </footer>
 
-    function openModal() {
-        document.getElementById("myModal").style.display = "block";
+  <script>
+    const images = [
+    "Website_Final_Edit/Places/Color-5302.jpg",
+    "Website_Final_Edit/Places/IMG_6385.jpg",
+    "Website_Final_Edit/Places/DSCF6198.jpg",
+    "Website_Final_Edit/Places/IMG_6806.jpg",
+    "Website_Final_Edit/Places/DSCF6617.jpg",
+    "Website_Final_Edit/Places/DSCF6113.jpg",
+    "Website_Final_Edit/Places/IMG_6459.jpg",
+    "Website_Final_Edit/Places/DSCF6573.jpg",
+    "Website_Final_Edit/Places/DSCF6062.jpg",
+    "Website_Final_Edit/Places/IMG_6440.jpg",
+    "Website_Final_Edit/Places/DSCF6214.jpg",
+    "Website_Final_Edit/Places/DSCF6054.jpg"
+];
+
+    const gallery = document.getElementById("gallery");
+    const modal = document.getElementById("myModal");
+    const modalImage = document.getElementById("modalImage");
+    const closeModal = document.querySelector(".close");
+    const prevButton = document.querySelector(".prev");
+    const nextButton = document.querySelector(".next");
+
+    let currentIndex = 0;
+
+    // Populate the gallery with lazy loading and images
+    images.forEach((src, index) => {
+      const img = document.createElement("img");
+      img.src = src;
+      img.alt = `Place ${index + 1}`;
+      img.loading = "lazy"; // Lazy load images
+      img.onclick = () => openModal(index);
+      const column = document.createElement("div");
+      column.classList.add("column");
+      column.appendChild(img);
+      gallery.appendChild(column);
+    });
+
+    // Open modal
+    function openModal(index) {
+      modal.style.display = "flex";
+      currentIndex = index;
+      updateModalImage();
     }
 
-    function closeModal() {
-        document.getElementById("myModal").style.display = "none";
+    // Update modal image
+    function updateModalImage() {
+      modalImage.src = images[currentIndex];
     }
 
-    function plusSlides(n) {
-        showSlides(slideIndex += n);
-    }
+    // Close modal
+    closeModal.onclick = () => {
+      modal.style.display = "none";
+    };
 
-    function currentSlide(n) {
-        showSlides(slideIndex = n);
-    }
+    // Navigation
+    prevButton.onclick = () => {
+      currentIndex = (currentIndex - 1 + images.length) % images.length;
+      updateModalImage();
+    };
 
-    function showSlides(n) {
-        let i;
-        const slides = document.getElementsByClassName("mySlides");
-        if (n > slides.length) { slideIndex = 1; }
-        if (n < 1) { slideIndex = slides.length; }
-        for (i = 0; i < slides.length; i++) {
-            slides[i].style.display = "none";
-        }
-        slides[slideIndex - 1].style.display = "block";
-    }
-</script>
+    nextButton.onclick = () => {
+      currentIndex = (currentIndex + 1) % images.length;
+      updateModalImage();
+    };
+
+    // Close modal on outside click
+    modal.onclick = (e) => {
+      if (e.target === modal) {
+        modal.style.display = "none";
+      }
+    };
+  </script>
 
 </body>
 </html>
