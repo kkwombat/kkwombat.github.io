@@ -1,178 +1,204 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="iso-8859-1">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Photo Gallery - People</title>
-    <style>
-        /* General Styles */
-        body {
-            background-color: #fefefe;
-            color: #000;
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-        }
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Photo Gallery</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
 
-        h1 {
-            margin-left: 70px;
-            margin-top: 50px;
-            font-style: italic;
-        }
+    body {
+      font-family: Times, serif;
+      background-color: #f4f4f4;
+    }
 
-        p {
-            margin-left: 70px;
-        }
+    .header {
+      text-align: center;
+      padding: 20px;
+    }
 
-        a {
-            margin-left: 70px;
-            text-decoration: none;
-            color: #0000EE;
-        }
+    .row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      justify-content: center;
+      padding: 16px;
+    }
 
-        .back-link {
-            margin-top: 20px;
-        }
+    .column {
+      flex: 1 1 calc(25% - 16px); /* 4 columns */
+      max-width: calc(25% - 16px);
+    }
 
-        /* Photo Grid Styles */
-        .row {
-            display: flex;
-            flex-wrap: wrap;
-            margin: 20px 70px;
-            gap: 10px;
-            justify-content: center;
-        }
+    .column img {
+      width: 100%;
+      cursor: pointer;
+      transition: transform 0.3s ease;
+    }
 
-        .column {
-            flex: 1 1 calc(25% - 20px);
-            max-width: calc(25% - 20px);
-            height: 200px; /* Ensures uniform height */
-            box-sizing: border-box;
-            overflow: hidden;
-        }
+    .column img:hover {
+      transform: scale(1.05);
+    }
 
-        .column img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover; /* Ensures the image fills the container */
-            object-position: center;
-            border-radius: 4px;
-            cursor: pointer;
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-        }
+    .modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.8);
+      z-index: 1000;
+      justify-content: center;
+      align-items: center;
+    }
 
-        .column img:hover {
-            transform: scale(1.05);
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-        }
+    .modal-content {
+      position: relative;
+      max-width: 90%;
+      max-height: 90%;
+      text-align: center;
+    }
 
-        /* Modal Styles */
-        .modal {
-            display: none;
-            position: fixed;
-            z-index: 10;
-            left: 0;
-            top: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0, 0, 0, 0.9);
-            overflow: hidden;
-        }
+    .modal-content img {
+      max-width: 100%;
+      max-height: 100%;
+    }
 
-        .modal-content img {
-            width: auto;
-            max-width: 90%;
-            max-height: 90%;
-            margin: auto;
-            display: block;
-            border-radius: 4px;
-        }
+    .close, .prev, .next {
+      position: absolute;
+      color: white;
+      font-size: 24px;
+      font-weight: bold;
+      cursor: pointer;
+      padding: 10px;
+    }
 
-        .close {
-            position: absolute;
-            top: 20px;
-            right: 40px;
-            color: #fff;
-            font-size: 30px;
-            font-weight: bold;
-            cursor: pointer;
-        }
+    .close {
+      top: 10px;
+      right: 20px;
+    }
 
-        /* Navigation Buttons */
-        .prev, .next {
-            position: absolute;
-            top: 50%;
-            transform: translateY(-50%);
-            color: #fff;
-            font-size: 30px;
-            padding: 10px;
-            cursor: pointer;
-            user-select: none;
-        }
+    .prev, .next {
+      top: 50%;
+      transform: translateY(-50%);
+    }
 
-        .prev {
-            left: 20px;
-        }
+    .prev {
+      left: 10px;
+    }
 
-        .next {
-            right: 20px;
-        }
+    .next {
+      right: 10px;
+    }
 
-        .prev:hover, .next:hover {
-            background-color: rgba(255, 255, 255, 0.2);
-            border-radius: 50%;
-        }
+    @media (max-width: 800px) {
+      .column {
+        flex: 1 1 calc(50% - 16px); /* 2 columns */
+      }
+    }
 
-        /* Responsive Design */
-        @media (max-width: 800px) {
-            .column {
-                flex: 1 1 calc(50% - 20px);
-                max-width: calc(50% - 20px);
-                height: 150px; /* Adjust height for smaller screens */
-            }
-        }
-
-        @media (max-width: 600px) {
-            .column {
-                flex: 1 1 100%;
-                max-width: 100%;
-                height: 150px; /* Adjust height for smaller screens */
-            }
-        }
-    </style>
+    @media (max-width: 600px) {
+      .column {
+        flex: 1 1 100%; /* 1 column */
+      }
+    }
+  </style>
 </head>
 <body>
+
+  <div class="header">
     <h1>People</h1>
-    <p>Click on an image to view it in full size.</p>
-    <div class="row">
-        <!-- Example Images -->
-        <div class="column">
-            <img src="images/photo1.jpg" alt="Photo 1" onclick="openModal(0)">
-        </div>
-        <div class="column">
-            <img src="images/photo2.jpg" alt="Photo 2" onclick="openModal(1)">
-        </div>
-        <div class="column">
-            <img src="images/photo3.jpg" alt="Photo 3" onclick="openModal(2)">
-        </div>
-        <div class="column">
-            <img src="images/photo4.jpg" alt="Photo 4" onclick="openModal(3)">
-        </div>
-    </div>
-    <div class="back-link">
-        <a href="gallery_page.html">Back</a>
-    </div>
+    <p><a href="gallery_page.html">Back</a></p>
+  </div>
 
-    <!-- Modal -->
-    <div id="myModal" class="modal">
-        <span class="close" onclick="closeModal()">&times;</span>
-        <a class="prev" onclick="changeSlide(-1)">&#10094;</a>
-        <a class="next" onclick="changeSlide(1)">&#10095;</a>
-        <div class="modal-content">
-            <img id="modal-image" src="" alt="Full Image">
-        </div>
-    </div>
+  <div class="row" id="gallery">
+    <!-- Images dynamically inserted by JavaScript -->
+  </div>
 
-    <script>
-        const images = document.querySelectorAll('.row img');
-        const modal = document.getElementById('myModal');
+  <div id="myModal" class="modal">
+    <div class="modal-content">
+      <span class="close">&times;</span>
+      <img id="modalImage" alt="Modal Image">
+      <a class="prev">&#10094;</a>
+      <a class="next">&#10095;</a>
+    </div>
+  </div>
+
+  <script>
+    const images = [
+      "Website_Final_Edit/People/DSCF6550.jpg",
+      "Website_Final_Edit/People/DSCF5641.jpg",
+      "Website_Final_Edit/People/DSCF6709.jpg",
+      "Website_Final_Edit/People/DSCF5274-2.jpg",
+      "Website_Final_Edit/People/DSCF6099.jpg",
+      "Website_Final_Edit/People/DSCF5695.jpg",
+      "Website_Final_Edit/People/DSCF4805.jpg",
+      "Website_Final_Edit/People/DSCF6433.jpg",
+      "Website_Final_Edit/People/DSCF4224.jpg"
+    ];
+
+    const gallery = document.getElementById("gallery");
+    const modal = document.getElementById("myModal");
+    const modalImage = document.getElementById("modalImage");
+    const closeModal = document.querySelector(".close");
+    const prevButton = document.querySelector(".prev");
+    const nextButton = document.querySelector(".next");
+
+    let currentIndex = 0;
+
+    // Populate the gallery
+    images.forEach((src, index) => {
+      const img = document.createElement("img");
+      img.src = src;
+      img.alt = `Image ${index + 1}`;
+      img.onclick = () => openModal(index);
+      const column = document.createElement("div");
+      column.classList.add("column");
+      column.appendChild(img);
+      gallery.appendChild(column);
+    });
+
+    // Open modal
+    function openModal(index) {
+      modal.style.display = "flex";
+      currentIndex = index;
+      updateModalImage();
+    }
+
+    // Update modal image
+    function updateModalImage() {
+      modalImage.src = images[currentIndex];
+    }
+
+    // Close modal
+    closeModal.onclick = () => {
+      modal.style.display = "none";
+    };
+
+    // Navigation
+    prevButton.onclick = () => {
+      currentIndex = (currentIndex - 1 + images.length) % images.length;
+      updateModalImage();
+    };
+
+    nextButton.onclick = () => {
+      currentIndex = (currentIndex + 1) % images.length;
+      updateModalImage();
+    };
+
+    // Close modal on outside click
+    modal.onclick = (e) => {
+      if (e.target === modal) {
+        modal.style.display = "none";
+      }
+    };
+  </script>
+
+</body>
+</html>
+
