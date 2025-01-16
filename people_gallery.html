@@ -1,24 +1,29 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
+  <meta charset="iso-8859-1">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Photo Gallery</title>
   <style>
-    * {
-      box-sizing: border-box;
+    body {
+      background-color: #fefefe;
+      color: #000;
+      font-family: Arial, sans-serif;
       margin: 0;
       padding: 0;
-    }
-
-    body {
-      font-family: Times, serif;
-      background-color: #f4f4f4;
     }
 
     .header {
       text-align: center;
       padding: 20px;
+      font-style: italic;
+      font-weight: bold;
+    }
+
+    .header a {
+      color: white;
+      text-decoration: none;
+      font-size: 18px;
     }
 
     .row {
@@ -26,6 +31,7 @@
       grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); /* Flexible grid layout */
       gap: 8px;
       padding: 16px;
+      margin-top: 40px; /* Reduced space between header and gallery */
     }
 
     .column {
@@ -34,7 +40,8 @@
 
     .column img {
       width: 100%;
-      height: auto;
+      height: 200px; /* Set all images to the same height */
+      object-fit: cover; /* Ensure images cover the box without stretching */
       cursor: pointer;
       transition: transform 0.3s ease;
     }
@@ -58,15 +65,16 @@
 
     .modal-content {
       position: relative;
-      max-width: 90%;
-      max-height: 90%;
+      width: 90%;
+      height: 900px; /* Fixed height for the modal */
       text-align: center;
+      overflow: hidden;
     }
 
     .modal-content img {
-      max-width: 100%;
-      max-height: 100%;
-      object-fit: contain; /* Ensures the image fits nicely without stretching */
+      width: auto;
+      max-height: 900px; /* Ensure image doesn't exceed the modal height */
+      object-fit: contain; /* Maintain aspect ratio */
     }
 
     .close, .prev, .next {
@@ -96,6 +104,29 @@
       right: 10px;
     }
 
+    footer {
+      position: fixed;
+      bottom: 5px;
+      width: 100%;
+      text-align: center;
+      font-style: italic;
+    }
+
+    /* Back Button Styling */
+    .back-button {
+      position: fixed;
+      bottom: 20px;
+      left: 70px;
+      color: white;
+      font-size: 18px;
+      font-style: italic;
+      text-decoration: none;
+      background-color: transparent;
+      border: none;
+      cursor: pointer;
+      z-index: 1001;
+    }
+
     @media (max-width: 800px) {
       .column {
         flex: 1 1 calc(50% - 16px); /* 2 columns */
@@ -112,9 +143,10 @@
 <body>
 
   <div class="header">
-    <h1>People</h1>
-    <p><a href="gallery_page.html">Back</a></p>
+    <h1>Photo Gallery</h1>
   </div>
+
+  <a href="gallery_page.html" class="back-button">Back</a>
 
   <div class="row" id="gallery">
     <!-- Images dynamically inserted by JavaScript -->
@@ -128,6 +160,10 @@
       <a class="next">&#10095;</a>
     </div>
   </div>
+
+  <footer>
+    &copy; 2025 K.K. Wopat
+  </footer>
 
   <script>
     const images = [
