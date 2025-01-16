@@ -3,7 +3,7 @@
 <head>
   <meta charset="iso-8859-1">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Photo Gallery</title>
+  <title>People Gallery</title>
   <style>
     body {
       background-color: #fefefe;
@@ -112,21 +112,6 @@
       font-style: italic;
     }
 
-    /* Back Button Styling */
-    .back-button {
-      position: fixed;
-      bottom: 20px;
-      left: 70px;
-      color: white;
-      font-size: 18px;
-      font-style: italic;
-      text-decoration: none;
-      background-color: transparent;
-      border: none;
-      cursor: pointer;
-      z-index: 1001;
-    }
-
     @media (max-width: 800px) {
       .column {
         flex: 1 1 calc(50% - 16px); /* 2 columns */
@@ -143,10 +128,9 @@
 <body>
 
   <div class="header">
-    <h1>Photo Gallery</h1>
+    <h1>People</h1>
   </div>
 
-  <a href="gallery_page.html" class="back-button">Back</a>
 
   <div class="row" id="gallery">
     <!-- Images dynamically inserted by JavaScript -->
