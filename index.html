@@ -1,9 +1,11 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="iso-8859-1">
+    <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Home</title>
+    <meta name="description" content="A personal portfolio home page with links to photos, projects, words, and about sections.">
+    <title>Home - Personal Portfolio</title>
+    <link rel="icon" href="favicon.ico" type="image/x-icon">
     <style>
         body {
             background-color: #fefefe;
@@ -13,18 +15,29 @@
             padding: 0;
         }
         h1 {
-            margin-left: 70px;
-            margin-top: 250px;
+            margin-left: 10%;
+            margin-top: 10%;
             font-style: italic;
             font-weight: bold;
         }
+        .message {
+            margin-left: 10%;
+            margin-right: 10%;
+            margin-top: 20px;
+            font-size: 16px; /* Slightly smaller than links */
+            line-height: 1.4; /* Reduced line spacing */
+        }
+        .message .signature {
+            font-style: italic; /* Italics for signature */
+        }
         ul {
-            margin-left: 70px;
+            margin-left: 10%;
             list-style-type: none;
             padding: 0;
         }
         ul li {
             margin: 5px 0;
+            font-size: 18px; /* Larger size for links */
         }
         footer {
             position: fixed;
@@ -33,10 +46,24 @@
             text-align: center;
             font-style: italic;
         }
+        @media (max-width: 600px) {
+            h1, .message, ul {
+                margin-left: 5%;
+                margin-right: 5%;
+            }
+            h1 {
+                margin-top: 10%;
+            }
+        }
     </style>
 </head>
 <body>
     <h1>Home</h1>
+    <div class="message">
+        <strong>Revival</strong><br>
+        My website has existed in some form since 2017 and it has served different purposes at different times, but my hope now is to bring it back as a way to document my work, adventures, and life in general. I’ve chosen this medium because I’m trying to distance myself from social media, but I still wanted a way to keep in touch with friends and family. Please have a look around!
+        <br> <span class="signature">-K.K. 17 Jan 2025</span>
+    </div>
     <ul>
         <li><a href="gallery_page.html">Photos</a></li>
         <li><a href="projects.html">Projects</a></li>
@@ -44,7 +71,11 @@
         <li><a href="about.html">About</a></li>
     </ul>
     <footer>
-        &copy; 2025 K.K. Wopat
+        &copy; <span id="year"></span> K.K. Wopat
     </footer>
+    <script>
+        document.getElementById('year').textContent = new Date().getFullYear();
+    </script>
 </body>
 </html>
+
