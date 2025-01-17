@@ -1,9 +1,9 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="iso-8859-1">
+  <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Places Gallery</title>
+  <title>People Gallery</title>
   <style>
     body {
       background-color: #fefefe;
@@ -20,28 +20,18 @@
       font-weight: bold;
     }
 
-    .header a {
-      color: white;
-      text-decoration: none;
-      font-size: 18px;
-    }
-
     .row {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); /* Flexible grid layout */
+      grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
       gap: 8px;
       padding: 16px;
-      margin-top: 40px; /* Reduced space between header and gallery */
-    }
-
-    .column {
-      width: 100%;
+      margin-top: 40px;
     }
 
     .column img {
       width: 100%;
-      height: 200px; /* Set all images to the same height */
-      object-fit: cover; /* Ensure images cover the box without stretching */
+      height: 200px;
+      object-fit: cover;
       cursor: pointer;
       transition: transform 0.3s ease;
     }
@@ -65,16 +55,16 @@
 
     .modal-content {
       position: relative;
-      width: 90%;
-      height: 900px; /* Fixed height for the modal */
+      max-width: 90%;
+      max-height: 90vh;
       text-align: center;
       overflow: hidden;
     }
 
     .modal-content img {
       width: auto;
-      max-height: 900px; /* Ensure image doesn't exceed the modal height */
-      object-fit: contain; /* Maintain aspect ratio */
+      max-height: 90vh;
+      object-fit: contain;
     }
 
     .close, .prev, .next {
@@ -88,7 +78,7 @@
 
     .close {
       top: 10px;
-      right: 20px;
+      left: 20px; /* Moved to the top-left corner */
     }
 
     .prev, .next {
@@ -111,43 +101,29 @@
       text-align: center;
       font-style: italic;
     }
-
-    @media (max-width: 800px) {
-      .column {
-        flex: 1 1 calc(50% - 16px); /* 2 columns */
-      }
-    }
-
-    @media (max-width: 600px) {
-      .column {
-        flex: 1 1 100%; /* 1 column */
-      }
-    }
   </style>
 </head>
 <body>
 
-<!-- Header -->
-
-<div class="header">
-  <h1>Places</h1>
-</div>
+  <div class="header">
+    <h1>People</h1>
+  </div>
 
   <div class="row" id="gallery">
     <!-- Images dynamically inserted by JavaScript -->
   </div>
 
-  <div id="myModal" class="modal">
+  <div id="myModal" class="modal" role="dialog" aria-hidden="true" aria-labelledby="modalImage">
     <div class="modal-content">
-      <span class="close">&times;</span>
+      <span class="close" id="topLeftClose">&times;</span>
       <img id="modalImage" alt="Modal Image">
-      <a class="prev">&#10094;</a>
-      <a class="next">&#10095;</a>
+      <a class="prev" id="prevButton">&#10094;</a>
+      <a class="next" id="nextButton">&#10095;</a>
     </div>
   </div>
 
   <footer>
-    &copy; 2025 K.K. Wopat
+    &copy; <span id="year"></span> K.K. Wopat
   </footer>
 
   <script>
@@ -170,8 +146,9 @@
     const modal = document.getElementById("myModal");
     const modalImage = document.getElementById("modalImage");
     const closeModal = document.querySelector(".close");
-    const prevButton = document.querySelector(".prev");
-    const nextButton = document.querySelector(".next");
+    const topLeftClose = document.getElementById("topLeftClose");
+    const prevButton = document.getElementById("prevButton");
+    const nextButton = document.getElementById("nextButton");
 
     let currentIndex = 0;
 
@@ -179,8 +156,8 @@
     images.forEach((src, index) => {
       const img = document.createElement("img");
       img.src = src;
-      img.alt = `Place ${index + 1}`;
-      img.loading = "lazy"; // Lazy load images
+      img.alt = `Image ${index + 1}`;
+      img.loading = "lazy";
       img.onclick = () => openModal(index);
       const column = document.createElement("div");
       column.classList.add("column");
@@ -191,6 +168,7 @@
     // Open modal
     function openModal(index) {
       modal.style.display = "flex";
+      modal.setAttribute("aria-hidden", "false");
       currentIndex = index;
       updateModalImage();
     }
@@ -201,9 +179,13 @@
     }
 
     // Close modal
-    closeModal.onclick = () => {
+    const closeModalAction = () => {
       modal.style.display = "none";
+      modal.setAttribute("aria-hidden", "true");
     };
+
+    closeModal.onclick = closeModalAction;
+    topLeftClose.onclick = closeModalAction;
 
     // Navigation
     prevButton.onclick = () => {
@@ -219,10 +201,27 @@
     // Close modal on outside click
     modal.onclick = (e) => {
       if (e.target === modal) {
-        modal.style.display = "none";
+        closeModalAction();
       }
     };
+
+    // Keyboard navigation
+    document.addEventListener("keydown", (e) => {
+      if (modal.style.display === "flex") {
+        if (e.key === "ArrowRight") {
+          nextButton.onclick();
+        } else if (e.key === "ArrowLeft") {
+          prevButton.onclick();
+        } else if (e.key === "Escape") {
+          closeModalAction();
+        }
+      }
+    });
+
+    // Set dynamic year in footer
+    document.getElementById("year").textContent = new Date().getFullYear();
   </script>
 
 </body>
 </html>
+
