@@ -1,9 +1,10 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="iso-8859-1">
+    <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>About</title>
+    <meta name="description" content="About page of a personal portfolio documenting life and work.">
+    <title>About - Personal Portfolio</title>
     <style>
         body {
             background-color: #fefefe;
@@ -13,31 +14,63 @@
             padding: 0;
         }
         h1 {
-            margin-left: 70px;
-            margin-top: 250px;
+            margin-left: 10%;
+            margin-top: 10%;
+            font-style: italic;
+            font-weight: bold;
+        }
+        .content {
+            margin-left: 10%;
+            margin-right: 10%;
+            margin-top: 20px;
+            font-size: 16px;
+            line-height: 1.4;
+        }
+        .content a {
+            display: block;
+            margin-top: 10px;
+            color: #0000EE;
+            text-decoration: none;
+            font-size: 18px;
+        }
+        .content .back-link {
+            margin-top: 20px;
+            font-size: 18px;
+        }
+        footer {
+            position: fixed;
+            bottom: 5px;
+            width: 100%;
+            text-align: center;
             font-style: italic;
         }
-        p, a {
-            margin-left: 70px;
-            display: block;
-        }
-        a {
-            text-decoration: none;
-            color: #0000EE;
-        }
-        .back-link {
-            margin-left: 70px;
-            margin-top: 20px;
+        @media (max-width: 600px) {
+            h1, .content {
+                margin-left: 5%;
+                margin-right: 5%;
+            }
+            h1 {
+                margin-top: 10%;
+            }
         }
     </style>
 </head>
 <body>
     <h1>About</h1>
-    <p>
-        Hello, thanks for visiting my website. I made this site as a space to document my life. You’ll find some photographs, some writing, some art and design, and maybe even some professional work here. You probably already know me if you’ve found my website, but if not, I’ve linked my CV and LinkedIn below.
-    </p>
-    <a href="CV-25.pdf">Curriculum Vitae</a>
-    <a href="https://www.linkedin.com/in/k-k-wopat/">LinkedIn</a>
-    <a class="back-link"><a href="index.html">Back</a>
+    <div class="content">
+        <p>
+            Hello, thanks for visiting my website. I made this site as a space to document my life. You’ll find some photographs, some writing, some art and design, and maybe even some professional work here. You probably already know me if you’ve found my website, but if not, I’ve linked my CV and LinkedIn below.
+        </p>
+        <a href="CV-25.pdf">Curriculum Vitae</a>
+        <a href="https://www.linkedin.com/in/k-k-wopat/">LinkedIn</a>
+        <a href="index.html" class="back-link">Back</a>
+    </div>
+    <footer>
+        &copy; <span id="year"></span> K.K. Wopat
+    </footer>
+    <script>
+        document.getElementById('year').textContent = new Date().getFullYear();
+    </script>
 </body>
 </html>
+
