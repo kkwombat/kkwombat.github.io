@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Personal introduction and updates blog post.">
+    <title>#1 - Introduction</title>
+    <style>
+        body {
+            background-color: #fefefe;
+            color: #000;
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+        h1 {
+            margin-left: 10%;
+            margin-top: 10%;
+            font-style: italic;
+            font-weight: bold;
+        }
+        .content {
+            margin-left: 10%;
+            margin-right: 10%;
+            margin-top: 20px;
+        }
+        .date {
+            font-size: 16px;
+            font-style: italic;
+            color: #555;
+            margin-bottom: 20px;
+        }
+        h2{
+            font-size: 24px;
+            margin: 10px 0;
+            font-style: italic;
+            font-weight: bold;
+        }
+        p {
+            font-size: 18px;
+            margin: 10px 0;
+        }
+        .back-link {
+            margin-left: 10%;
+            margin-top: 20px;
+            font-size: 18px;
+        }
+        .back-link a {
+            text-decoration: none;
+            color: #0000EE;
+        }
+        footer {
+            position: fixed;
+            bottom: 5px;
+            width: 100%;
+            text-align: center;
+            font-style: italic;
+        }
+        @media (max-width: 600px) {
+            h1, .content, .back-link {
+                margin-left: 5%;
+                margin-right: 5%;
+            }
+            h1 {
+                margin-top: 10%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <h1>#1 - Introduction</h1>
+    <div class="content">
+        <p class="date">22 Jan 2025</p>
+        <p>Hello! I’ve dusted off my website and now I’m going to start publishing to it regularly. I’m trying to get off of Meta platforms altogether, but I wanted to replace Instagram and Facebook which are basically an archive of my life (the bits I felt like sharing publicly, at least). It’s nice to have the memories to look back on, but in light of the election/inauguration I don’t want to keep using those platforms. There’s a myriad of reasons why, but the mounting evidence that social media is a tool for propaganda and overall manipulation of the masses makes me very skeptical of their value in my life.</p>
+        <p>The other, more productive, purpose for the switch is that I want to implement more creative practices and projects in my daily life. This website counts as my first project and will give me a space to focus on the work I do rather than an app with addictive scrolling features. Time will tell if I can keep up this commitment, but I am feeling more galvanised these days.</p>
+        <p>My first projects/posts are already in the works, and over the next month I’ll be sharing some more about some major life updates.</p>
+    </div>
+    <p class="back-link"><a href="words.html">Back</a></p>
+    <footer>
+        &copy; <span id="year"></span> K.K. Wopat
+    </footer>
+    <script>
+        document.getElementById('year').textContent = new Date().getFullYear();
+    </script>
+</body>
+</html>
